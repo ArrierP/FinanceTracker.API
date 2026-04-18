@@ -1,0 +1,10 @@
+﻿using FinanceTracker.API.DTOs.Auth;
+
+namespace FinanceTracker.API.Services.Interfaces
+{
+    public interface IAuthService
+    {
+        Task RegisterAsync(RegisterDto registerDto);
+        Task<string> LoginAsync(LoginDto loginDto);
+    }
+}

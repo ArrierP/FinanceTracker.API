@@ -1,0 +1,8 @@
+﻿namespace FinanceTracker.API.Enums
+{
+    public enum UserRole
+    {
+        User,
+        Admin
+    }
+}
