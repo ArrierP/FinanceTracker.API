@@ -22,7 +22,6 @@ Dự án được triển khai dưới dạng project mang tên `FinanceTracker.
 * **`Program.cs`**: Đăng ký các dịch vụ (Dependency Injection) và thiết lập Pipeline cho Authentication/Authorization.
 
 ### 2. Tầng Domain (Core)
-Thư mục `Domain/` chứa các thành phần nền tảng của ứng dụng:
 * **Entities**: Định nghĩa các bảng như `User`, `Wallet`, `Category`, và `Transaction`.
 * **Audit**: Lớp `BaseAuditableEntity` giúp tự động theo dõi thời gian và người tạo/chỉnh sửa dữ liệu.
 * **Enums**: Định nghĩa các hằng số cho vai trò người dùng (`UserRole`), loại giao dịch, và trạng thái.
