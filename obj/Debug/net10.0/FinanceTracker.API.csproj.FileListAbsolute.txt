@@ -161,4 +161,5 @@ C:\Users\Arrier\source\repos\FinanceTracker.API\FinanceTracker.API\bin\Debug\net
 C:\Users\Arrier\source\repos\FinanceTracker.API\FinanceTracker.API\bin\Debug\net10.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
 C:\Users\Arrier\source\repos\FinanceTracker.API\FinanceTracker.API\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
 C:\Users\Arrier\source\repos\FinanceTracker.API\FinanceTracker.API\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
+C:\Users\Arrier\source\repos\FinanceTracker.API\FinanceTracker.API\obj\Debug\net10.0\FinanceTracker.API.sourcelink.json
 C:\Users\Arrier\source\repos\FinanceTracker.API\FinanceTracker.API\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt

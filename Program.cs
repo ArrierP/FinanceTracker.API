@@ -17,6 +17,8 @@ builder.Services.AddScoped<ApplicationDbContext>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 builder.Services.AddScoped<IWalletService, WalletService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
 
 builder.Services.AddHttpContextAccessor();
 
