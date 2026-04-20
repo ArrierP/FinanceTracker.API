@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Arrier\\source\\repos\\FinanceTracker.API\\FinanceTracker.API\\FinanceTracker.API.csproj": {}
+    "D:\\Code\\CONG_NGHE_.NET\\FT.API\\FinanceTracker.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Arrier\\source\\repos\\FinanceTracker.API\\FinanceTracker.API\\FinanceTracker.API.csproj": {
+    "D:\\Code\\CONG_NGHE_.NET\\FT.API\\FinanceTracker.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Arrier\\source\\repos\\FinanceTracker.API\\FinanceTracker.API\\FinanceTracker.API.csproj",
+        "projectUniqueName": "D:\\Code\\CONG_NGHE_.NET\\FT.API\\FinanceTracker.API.csproj",
         "projectName": "FinanceTracker.API",
-        "projectPath": "C:\\Users\\Arrier\\source\\repos\\FinanceTracker.API\\FinanceTracker.API\\FinanceTracker.API.csproj",
-        "packagesPath": "C:\\Users\\Arrier\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Arrier\\source\\repos\\FinanceTracker.API\\FinanceTracker.API\\obj\\",
+        "projectPath": "D:\\Code\\CONG_NGHE_.NET\\FT.API\\FinanceTracker.API.csproj",
+        "packagesPath": "C:\\Users\\THOA\\.nuget\\packages\\",
+        "outputPath": "D:\\Code\\CONG_NGHE_.NET\\FT.API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Arrier\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\THOA\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -55,6 +56,14 @@
             "BCrypt.Net-Next": {
               "target": "Package",
               "version": "[4.1.0, )"
+            },
+            "MediatR": {
+              "target": "Package",
+              "version": "[11.1.0, )"
+            },
+            "MediatR.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[11.1.0, )"
             },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
