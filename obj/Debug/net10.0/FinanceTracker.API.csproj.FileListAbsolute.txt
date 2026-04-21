@@ -331,3 +331,6 @@ D:\Code\CONG_NGHE_.NET\FT.API\obj\Debug\net10.0\staticwebassets.upToDateCheck.tx
 D:\Code\CONG_NGHE_.NET\FT.API\obj\Debug\net10.0\FinanceT.A137E558.Up2Date
 D:\Code\CONG_NGHE_.NET\FT.API\obj\Debug\net10.0\FinanceTracker.API.genruntimeconfig.cache
 D:\Code\CONG_NGHE_.NET\FT.API\obj\Debug\net10.0\ref\FinanceTracker.API.dll
+C:\Users\Arrier\source\repos\FinanceTracker.API\FinanceTracker.API\bin\Debug\net10.0\MediatR.dll
+C:\Users\Arrier\source\repos\FinanceTracker.API\FinanceTracker.API\bin\Debug\net10.0\MediatR.Contracts.dll
+C:\Users\Arrier\source\repos\FinanceTracker.API\FinanceTracker.API\bin\Debug\net10.0\MediatR.Extensions.Microsoft.DependencyInjection.dll
