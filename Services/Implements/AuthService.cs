@@ -49,6 +49,11 @@ namespace FinanceTracker.API.Services.Implements
                 throw new Exception("Invalid credentials.");
             }
 
+            if (user.IsLocked)
+            {
+                throw new Exception("User Locked.");
+            }
+
             return GenerateJwtToken(user);
         }
 

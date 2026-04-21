@@ -591,6 +591,11 @@
             "type": "integer",
             "format": "int32"
           },
+          "toWalletId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
           "categoryId": {
             "type": "integer",
             "format": "int32"
@@ -699,6 +704,11 @@
           "walletId": {
             "type": "integer",
             "format": "int32"
+          },
+          "toWalletId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           },
           "categoryId": {
             "type": "integer",

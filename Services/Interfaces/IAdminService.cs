@@ -1,8 +1,9 @@
-﻿using FinanceTracker.API.Entities;
+﻿using FinanceTracker.API.DTOs.Admin;
+using FinanceTracker.API.Entities;
 
 public interface IAdminService
 {
-    Task<List<User>> GetAllUsersAsync();
+    Task<List<UserDto>> GetAllUsersAsync();
     Task LockUserAsync(int userId);
     Task UnlockUserAsync(int userId);
 }

@@ -23,13 +23,13 @@ public class AdminController : ControllerBase
     public async Task<IActionResult> Lock(int id)
     {
         await _service.LockUserAsync(id);
-        return Ok("User locked");
+        return Ok(new { message = "User locked" });
     }
 
     [HttpPost("unlock/{id}")]
     public async Task<IActionResult> Unlock(int id)
     {
         await _service.UnlockUserAsync(id);
-        return Ok("User unlocked");
+        return Ok(new { message = "User unlocked" });
     }
 }

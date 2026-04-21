@@ -203,7 +203,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "FinanceTracker.API.DTOs.Transaction.CreateTransactionDto",
+        "Type": "CreateTransactionDto",
         "IsRequired": true
       }
     ],

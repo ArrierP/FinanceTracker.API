@@ -1,4 +1,5 @@
 ﻿using FinanceTracker.Api.Data;
+using FinanceTracker.API.DTOs.Admin;
 using FinanceTracker.API.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,11 +12,18 @@ public class AdminService : IAdminService
         _context = context;
     }
 
-    public async Task<List<User>> GetAllUsersAsync()
+    public async Task<List<UserDto>> GetAllUsersAsync()
     {
-        return await _context.Users.ToListAsync();
+        return await _context.Users
+            .Select(user => new UserDto
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Role = user.Role.ToString(), // Chuyển Enum sang String
+                IsLocked = user.IsLocked
+            })
+            .ToListAsync();
     }
-
     public async Task LockUserAsync(int userId)
     {
         var user = await _context.Users.FindAsync(userId);

@@ -25,7 +25,9 @@ public class Transaction : BaseAuditableEntity
     // 1. Liên kết với Wallet (Ví): Giao dịch này trừ/cộng tiền vào Ví nào?
     public int WalletId { get; set; }
     public Wallet? Wallet { get; set; }
-
+    public int? ToWalletId { get; set; }
+    [ForeignKey("ToWalletId")]
+    public Wallet? ToWallet { get; set; }
     // 2. Liên kết với Category (Danh mục): Giao dịch này thuộc nhóm nào?
     public int CategoryId { get; set; }
     public Category? Category { get; set; }

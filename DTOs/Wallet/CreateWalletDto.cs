@@ -9,6 +9,6 @@ namespace FinanceTracker.API.DTOs.Wallet
         public string Name { get; set; } = string.Empty;
 
         [Range(0, double.MaxValue)]
-        public double InitialBalance { get; set; } = 0;
+        public decimal InitialBalance { get; set; } = 0;
     }
 }
