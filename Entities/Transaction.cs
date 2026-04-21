@@ -29,4 +29,6 @@ public class Transaction : BaseAuditableEntity
     // 2. Liên kết với Category (Danh mục): Giao dịch này thuộc nhóm nào?
     public int CategoryId { get; set; }
     public Category? Category { get; set; }
+    public DateTime Date { get; set; }
+    public int UserId { get; set; }
 }

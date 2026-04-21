@@ -28,12 +28,12 @@ namespace FinanceTracker.Api.Data
                 {
                     case EntityState.Added:
                         // Bỏ .ToString() để truyền thẳng int? vào int?
-                        entry.Entity.CreatedBy = _currentUserService.UserId;
+                        entry.Entity.CreatedBy = _currentUserService.UserId ?? 0;
                         entry.Entity.CreatedAt = DateTime.UtcNow;
                         break;
                     case EntityState.Modified:
                         // Bỏ .ToString()
-                        entry.Entity.LastModifiedBy = _currentUserService.UserId;
+                        entry.Entity.LastModifiedBy = _currentUserService.UserId ?? 0 ;
                         entry.Entity.LastModifiedAt = DateTime.UtcNow;
                         break;
                 }
