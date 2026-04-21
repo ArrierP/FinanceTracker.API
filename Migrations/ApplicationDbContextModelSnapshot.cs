@@ -124,9 +124,6 @@ namespace FinanceTracker.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsLocked")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime?>("LastModifiedAt")
                         .HasColumnType("datetime2");
 
