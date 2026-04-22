@@ -727,6 +727,10 @@
             "maxLength": 100,
             "minLength": 1,
             "type": "string"
+          },
+          "initialBalance": {
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false

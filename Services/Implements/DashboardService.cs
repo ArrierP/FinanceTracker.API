@@ -30,19 +30,27 @@ public class DashboardService : IDashboardService
             query = query.Where(x => x.UserId == userId);
         }
 
+        var startDate = DateTime.UtcNow.AddDays(-7);
         var data = await query
-            .Where(x => x.Date.Month == now.Month && x.Date.Year == now.Year)
+            .Where(x => x.Date >= startDate)
             .ToListAsync();
+
+        var chartItems = data
+            .GroupBy(x => x.Date.ToString("dd/MM")) // Nhóm theo ngày/tháng
+            .Select(g => new ChartItemDto
+            {
+                Date = g.Key,
+                Income = g.Where(x => x.Type == TransactionType.Income).Sum(x => x.Amount),
+                Expense = g.Where(x => x.Type == TransactionType.Expense).Sum(x => x.Amount)
+            })
+            .OrderBy(x => x.Date)
+            .ToList();
 
         return new MonthlySummaryDto
         {
-            TotalIncome = data
-                .Where(x => x.Type == TransactionType.Income)
-                .Sum(x => x.Amount),
-
-            TotalExpense = data
-                .Where(x => x.Type == TransactionType.Expense)
-                .Sum(x => x.Amount)
+            TotalIncome = chartItems.Sum(x => x.Income),
+            TotalExpense = chartItems.Sum(x => x.Expense),
+            ChartData = chartItems // Gửi mảng này về
         };
     }
 }

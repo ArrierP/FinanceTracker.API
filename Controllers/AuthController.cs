@@ -35,8 +35,17 @@ namespace FinanceTracker.API.Controllers
         {
             try
             {
-                var token = await _authService.LoginAsync(loginDto);
-                return Ok(new { token });
+                var authResponse = await _authService.LoginAsync(loginDto);
+
+                return Ok(new
+                {
+                    token = authResponse.Token,
+                    user = new
+                    {
+                        email = authResponse.Email,
+                        role = authResponse.Role // Trả về "Admin" hoặc "User"
+                    }
+                });
             }
             catch (Exception ex)
             {

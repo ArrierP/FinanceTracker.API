@@ -47,6 +47,7 @@ namespace FinanceTracker.API.Services.Implements
             var wallet = await GetWalletByIdAsync(id);
 
             wallet.Name = updateWalletDto.Name;
+            wallet.Balance = updateWalletDto.InitialBalance;
 
             _context.Wallets.Update(wallet);
             await _context.SaveChangesAsync();

@@ -45,6 +45,16 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()   // Cho phép tất cả các nguồn (hoặc thay bằng .WithOrigins("http://localhost:3000"))
+              .AllowAnyMethod()   // Cho phép GET, POST, PUT, DELETE...
+              .AllowAnyHeader();  // Cho phép các Header như Content-Type, Authorization...
+    });
+});
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -63,6 +73,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAll");
 
 app.UseAuthentication();
 app.UseAuthorization();

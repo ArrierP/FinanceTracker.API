@@ -5,6 +5,6 @@ namespace FinanceTracker.API.Services.Interfaces
     public interface IAuthService
     {
         Task RegisterAsync(RegisterDto registerDto);
-        Task<string> LoginAsync(LoginDto loginDto);
+        Task<AuthResponseDto> LoginAsync(LoginDto loginDto);
     }
 }

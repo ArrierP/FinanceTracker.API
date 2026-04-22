@@ -40,7 +40,7 @@ namespace FinanceTracker.API.Services.Implements
             await _context.SaveChangesAsync();
         }
 
-        public async Task<string> LoginAsync(LoginDto loginDto)
+        public async Task<AuthResponseDto> LoginAsync(LoginDto loginDto)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == loginDto.Email);
 
@@ -54,7 +54,14 @@ namespace FinanceTracker.API.Services.Implements
                 throw new Exception("User Locked.");
             }
 
-            return GenerateJwtToken(user);
+            var token = GenerateJwtToken(user);
+
+            return new AuthResponseDto
+            {
+                Token = token,
+                Email = user.Email,
+                Role = user.Role.ToString() // "Admin" hoặc "User"
+            }; ;
         }
 
         private string GenerateJwtToken(User user)
