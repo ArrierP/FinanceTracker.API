@@ -8,6 +8,7 @@ namespace FinanceTracker.API.Entities
         public string Password { get; set; } = string.Empty;
         public UserRole Role { get; set; } = new UserRole();
         public bool IsLocked { get; set; } = false;
+        public DateTime? LastLogin { get; set; } //để null được khi chưa đăng nhập lần nào
         public ICollection<Wallet> Wallets { get; set; } = new List<Wallet>();
     }
 }

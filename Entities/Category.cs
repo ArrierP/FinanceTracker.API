@@ -10,14 +10,18 @@ public class Category : BaseAuditableEntity
 
     // Phân loại: Thu nhập hay Chi tiêu
     public CategoryType Type { get; set; }
+    public string Icon { get; set; }= string.Empty;
 
     // ==========================================
     // KHÓA NGOẠI VÀ ĐIỀU HƯỚNG (RELATIONSHIPS)
     // ==========================================
 
     // 1. Liên kết với User: Mỗi danh mục do 1 User tạo ra (để không xem chéo của nhau)
-    public int UserId { get; set; }
+    // Nếu là danh mục mặc định thì UserId sẽ để null
+    public int? UserId { get; set; }
     public User? User { get; set; }
+
+    public bool IsDefault { get; set; } = false;
 
     // 2. Liên kết với Transaction: Một danh mục có thể chứa nhiều giao dịch (Quan hệ 1-Nhiều)
     public ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();

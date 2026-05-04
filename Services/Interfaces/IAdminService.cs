@@ -1,9 +1,18 @@
 ﻿using FinanceTracker.API.DTOs.Admin;
-using FinanceTracker.API.Entities;
 
-public interface IAdminService
+namespace FinanceTracker.API.Services.Interfaces
 {
-    Task<List<UserDto>> GetAllUsersAsync();
-    Task LockUserAsync(int userId);
-    Task UnlockUserAsync(int userId);
+    public interface IAdminService
+    {
+        Task<List<UserDto>> GetAllUsersAsync();
+        Task LockUserAsync(int userId);
+        Task UnlockUserAsync(int userId);
+        // --- Thống kê hệ thống ---
+        Task<SystemStatsDto> GetSystemStatsAsync();
+
+        // --- Quản lý danh mục mặc định ---
+        Task<List<GlobalCategoryDto>> GetDefaultCategoriesAsync();
+        Task CreateDefaultCategoryAsync(GlobalCategoryDto dto);
+    }
 }
+

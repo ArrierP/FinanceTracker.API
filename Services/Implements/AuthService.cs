@@ -24,7 +24,7 @@ namespace FinanceTracker.API.Services.Implements
 
         public async Task RegisterAsync(RegisterDto registerDto)
         {
-            if(await _context.Users.AnyAsync(u => u.Email == registerDto.Email))
+            if (await _context.Users.AnyAsync(u => u.Email == registerDto.Email))
             {
                 throw new Exception("Email already exists.");
             }
@@ -33,11 +33,33 @@ namespace FinanceTracker.API.Services.Implements
             {
                 Email = registerDto.Email,
                 Password = BCrypt.Net.BCrypt.HashPassword(registerDto.Password),
-                Role = UserRole.User
+                Role = UserRole.User,
+                CreatedAt = DateTime.UtcNow
             };
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
+
+            // --- LOGIC: TỰ ĐỘNG COPY DANH MỤC MẶC ĐỊNH ---
+            var defaultCategories = await _context.Categories
+                .Where(c => c.IsDefault)
+                .ToListAsync();
+
+            if (defaultCategories.Any())
+            {
+                var userCategories = defaultCategories.Select(dc => new Category
+                {
+                    Name = dc.Name,
+                    Icon = dc.Icon,
+                    Type = dc.Type,
+                    IsDefault = false, // Bản sao của user thì không còn là mặc định hệ thống
+                    UserId = user.Id    // Gán vào tài khoản vừa tạo
+                }).ToList();
+
+                _context.Categories.AddRange(userCategories);
+                await _context.SaveChangesAsync();
+            }
+
         }
 
         public async Task<AuthResponseDto> LoginAsync(LoginDto loginDto)
@@ -53,6 +75,11 @@ namespace FinanceTracker.API.Services.Implements
             {
                 throw new Exception("User Locked.");
             }
+
+            // --- LOGIC: CẬP NHẬT LAST LOGIN ---
+            user.LastLogin = DateTime.UtcNow; // Lưu vết để Admin thống kê Active Users
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
 
             var token = GenerateJwtToken(user);
 
@@ -85,5 +112,7 @@ namespace FinanceTracker.API.Services.Implements
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+
     }
 }
