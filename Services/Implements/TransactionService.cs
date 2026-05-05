@@ -99,7 +99,10 @@ public class TransactionService : ITransactionService
             var wallet = await _context.Wallets.FirstOrDefaultAsync(w => w.Id == dto.WalletId && w.UserId == userId);
             var category = await _context.Categories.FirstOrDefaultAsync(c => c.Id == dto.CategoryId && c.UserId == userId);
 
-            if (wallet == null || category == null) return null;
+            if (wallet == null) return null;
+
+            if (dto.Type != TransactionType.Transfer && category == null)
+                return null;
 
             var transaction = new Transaction
             {
@@ -158,7 +161,7 @@ public class TransactionService : ITransactionService
                 TransactionDate = transaction.TransactionDate,
                 Type = transaction.Type.ToString(),
                 WalletName = wallet.Name,
-                CategoryName = category.Name,
+                CategoryName = dto.Type == TransactionType.Transfer ? null : category!.Name,
                 CreatedAt = transaction.CreatedAt
             };
         }

@@ -35,8 +35,15 @@ public class CategoriesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateCategoryDto dto)
     {
-        var category = await _categoryService.CreateAsync(dto);
-        return CreatedAtAction(nameof(GetById), new { id = category.Id }, category);
+        try
+        {
+            var category = await _categoryService.CreateAsync(dto);
+            return CreatedAtAction(nameof(GetById), new { id = category.Id }, category);
+        }
+        catch (Exception ex)
+        {
+            return Conflict(new { message = ex.Message }); // 👈 409
+        }
     }
 
     [HttpPut("{id}")]

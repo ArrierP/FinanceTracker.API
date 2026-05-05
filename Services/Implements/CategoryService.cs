@@ -20,22 +20,14 @@ public class CategoryService : ICategoryService
     public async Task<IEnumerable<Category>> GetAllAsync()
     {
         int userId = _currentUserService.UserId ?? throw new UnauthorizedAccessException();
-        // Kiểm tra xem User này đã có danh mục riêng chưa
-        var userCategories = await _context.Categories
-            .Where(c => c.UserId == userId)
-            .ToListAsync();
+        // Chỉ lấy danh mục của user đang đăng nhập
 
-        // Nếu User đã có danh mục (kể cả do hệ thống copy sang lúc tạo account), 
-        // thì chỉ trả về danh mục của họ thôi.
-        if (userCategories.Any())
-        {
-            return userCategories;
-        }
-
-        // Nếu User hoàn toàn trống trải (vừa tạo acc xong), mới lấy hàng mặc định
         return await _context.Categories
-            .Where(c => c.IsDefault && c.UserId == null)
-            .ToListAsync();
+        .Where(c =>
+            (c.UserId == userId) ||
+            (c.IsDefault && c.UserId == null)
+        )
+        .ToListAsync();
     }
 
     public async Task<Category?> GetByIdAsync(int id)
@@ -47,6 +39,18 @@ public class CategoryService : ICategoryService
     public async Task<Category> CreateAsync(CreateCategoryDto dto)
     {
         int userId = _currentUserService.UserId ?? throw new UnauthorizedAccessException();
+
+        var normalized = dto.Name.Trim().ToLower();
+
+        var exists = await _context.Categories.AnyAsync(c =>
+            c.UserId == userId &&
+            c.Type == dto.Type &&
+            c.Name.Trim().ToLower() == normalized
+        );
+
+        if (exists)
+            throw new Exception("Category already exists");
+
         var category = new Category
         {
             Name = dto.Name,

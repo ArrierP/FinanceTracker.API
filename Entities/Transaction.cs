@@ -29,7 +29,7 @@ public class Transaction : BaseAuditableEntity
     [ForeignKey("ToWalletId")]
     public Wallet? ToWallet { get; set; }
     // 2. Liên kết với Category (Danh mục): Giao dịch này thuộc nhóm nào?
-    public int CategoryId { get; set; }
+    public int? CategoryId { get; set; }
     public Category? Category { get; set; }
     public DateTime Date { get; set; }
     public int UserId { get; set; }

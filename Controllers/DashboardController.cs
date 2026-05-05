@@ -6,7 +6,7 @@ namespace FinanceTracker.API.Controllers
 {
     [ApiController]
     [Route("api/dashboard")]
-    //[Authorize]
+    [Authorize]
     public class DashboardController : ControllerBase
     {
         private readonly IDashboardService _service;

@@ -8,5 +8,5 @@ public class CreateTransactionDto
     public TransactionType Type { get; set; }
     public int WalletId { get; set; } // Ví nguồn (Gửi tiền đi)
     public int? ToWalletId { get; set; } // Ví đích (Nhận tiền - chỉ dùng cho Transfer)
-    public int CategoryId { get; set; }
+    public int? CategoryId { get; set; }
 }

@@ -82,6 +82,10 @@ namespace FinanceTracker.Api.Data
                 .WithMany(c => c.Transactions)
                 .HasForeignKey(t => t.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Category>()
+                .HasIndex(c => new { c.UserId, c.Type, c.Name })
+                .IsUnique();
         }
     }
 }
