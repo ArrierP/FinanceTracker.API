@@ -1,6 +1,69 @@
 [
   {
-    "ContainingType": "AdminController",
+    "ContainingType": "FinanceTracker.API.Controllers.AdminController",
+    "Method": "GetDefaultCategories",
+    "RelativePath": "api/admin/categories/defaults",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FinanceTracker.API.Controllers.AdminController",
+    "Method": "CreateDefaultCategory",
+    "RelativePath": "api/admin/categories/defaults",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "FinanceTracker.API.DTOs.Admin.GlobalCategoryDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FinanceTracker.API.Controllers.AdminController",
+    "Method": "UpdateDefaultCategory",
+    "RelativePath": "api/admin/categories/defaults/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "FinanceTracker.API.DTOs.Admin.GlobalCategoryDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FinanceTracker.API.Controllers.AdminController",
+    "Method": "DeleteDefaultCategory",
+    "RelativePath": "api/admin/categories/defaults/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FinanceTracker.API.Controllers.AdminController",
     "Method": "Lock",
     "RelativePath": "api/admin/lock/{id}",
     "HttpMethod": "POST",
@@ -16,7 +79,17 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "AdminController",
+    "ContainingType": "FinanceTracker.API.Controllers.AdminController",
+    "Method": "GetStats",
+    "RelativePath": "api/admin/stats",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FinanceTracker.API.Controllers.AdminController",
     "Method": "Unlock",
     "RelativePath": "api/admin/unlock/{id}",
     "HttpMethod": "POST",
@@ -32,7 +105,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "AdminController",
+    "ContainingType": "FinanceTracker.API.Controllers.AdminController",
     "Method": "GetUsers",
     "RelativePath": "api/admin/users",
     "HttpMethod": "GET",
@@ -153,9 +226,61 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "DashboardController",
+    "ContainingType": "FinanceTracker.API.Controllers.DashboardController",
+    "Method": "GetCategorySummary",
+    "RelativePath": "api/dashboard/categories",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FinanceTracker.API.Controllers.DashboardController",
     "Method": "GetMonthly",
     "RelativePath": "api/dashboard/monthly",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "days",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FinanceTracker.API.Controllers.DashboardController",
+    "Method": "GetOverview",
+    "RelativePath": "api/dashboard/overview",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FinanceTracker.API.Controllers.DashboardController",
+    "Method": "GetMonthlyTrend",
+    "RelativePath": "api/dashboard/trend",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "months",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "FinanceTracker.API.Controllers.DashboardController",
+    "Method": "GetWalletSummary",
+    "RelativePath": "api/dashboard/wallets",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

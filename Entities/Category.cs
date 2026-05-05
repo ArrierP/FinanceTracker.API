@@ -10,7 +10,6 @@ public class Category : BaseAuditableEntity
 
     // Phân loại: Thu nhập hay Chi tiêu
     public CategoryType Type { get; set; }
-    public string Icon { get; set; }= string.Empty;
 
     // ==========================================
     // KHÓA NGOẠI VÀ ĐIỀU HƯỚNG (RELATIONSHIPS)

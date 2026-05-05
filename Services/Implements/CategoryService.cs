@@ -21,7 +21,12 @@ public class CategoryService : ICategoryService
     {
         int userId = _currentUserService.UserId ?? throw new UnauthorizedAccessException();
         // Chỉ lấy danh mục của user đang đăng nhập
-        return await _context.Categories.Where(c => c.UserId == userId).ToListAsync();
+        return await _context.Categories
+        .Where(c =>
+            (c.UserId == userId) ||
+            (c.IsDefault && c.UserId == null)
+        )
+        .ToListAsync();
     }
 
     public async Task<Category?> GetByIdAsync(int id)

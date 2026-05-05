@@ -13,6 +13,9 @@ namespace FinanceTracker.API.Services.Interfaces
         // --- Quản lý danh mục mặc định ---
         Task<List<GlobalCategoryDto>> GetDefaultCategoriesAsync();
         Task CreateDefaultCategoryAsync(GlobalCategoryDto dto);
+
+        Task UpdateDefaultCategoryAsync(int id, GlobalCategoryDto dto);
+        Task DeleteDefaultCategoryAsync(int id);
     }
 }
 

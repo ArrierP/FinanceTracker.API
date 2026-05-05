@@ -50,7 +50,6 @@ namespace FinanceTracker.API.Services.Implements
                 var userCategories = defaultCategories.Select(dc => new Category
                 {
                     Name = dc.Name,
-                    Icon = dc.Icon,
                     Type = dc.Type,
                     IsDefault = false, // Bản sao của user thì không còn là mặc định hệ thống
                     UserId = user.Id    // Gán vào tài khoản vừa tạo

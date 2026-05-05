@@ -58,7 +58,23 @@ namespace FinanceTracker.API.Controllers
         {
             // Admin tạo danh mục mới để dùng chung cho toàn hệ thống
             await _service.CreateDefaultCategoryAsync(dto);
-            return Ok(new { message = "Tạo danh mục mặc định thành công!" });
+            return Ok(new { message = "Create default category successfully!" });
+        }
+
+        [HttpPut("categories/defaults/{id}")]
+        public async Task<IActionResult> UpdateDefaultCategory(int id, [FromBody] GlobalCategoryDto dto)
+        {
+            // Cập nhật danh mục mặc định
+            await _service.UpdateDefaultCategoryAsync(id, dto);
+            return Ok(new { message = "Update default category successfully!" });
+        }
+
+        [HttpDelete("categories/defaults/{id}")]
+        public async Task<IActionResult> DeleteDefaultCategory(int id)
+        {
+            // Xóa danh mục mặc định
+            await _service.DeleteDefaultCategoryAsync(id);
+            return Ok(new { message = "Delete default category successfully!" });
         }
     }
 }

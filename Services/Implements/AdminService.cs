@@ -68,15 +68,22 @@ namespace FinanceTracker.API.Services.Implements
 
             // 4. User Growth: Lượng người dùng mới đăng ký trong 7 ngày gần nhất
             var growth = await _context.Users
-                .Where(u => u.CreatedAt >= now.AddDays(-7))
-                .GroupBy(u => u.CreatedAt.Date)
+                        .Where(u => u.CreatedAt >= now.AddDays(-7))
+                        .GroupBy(u => u.CreatedAt.Date)
+                        .Select(g => new
+                        {
+                            Date = g.Key,
+                            Count = g.Count()
+                        })
+                        .ToListAsync();
+            var result = growth
                 .Select(g => new UserGrowthDto
                 {
-                    Date = g.Key.ToString("dd/MM"),
-                    Count = g.Count()
+                    Date = g.Date.ToString("dd/MM"),
+                    Count = g.Count
                 })
                 .OrderBy(x => x.Date)
-                .ToListAsync();
+                .ToList();
             // Thống kê Top 5 danh mục được sử dụng nhiều nhất trên hệ thống
             var topCategories = await _context.Transactions
                 .GroupBy(t => t.CategoryId)
@@ -96,7 +103,8 @@ namespace FinanceTracker.API.Services.Implements
                 TotalUsers = totalUsers,
                 ActiveUsers24h = activeUsers,
                 TotalTransactions24h = transactions24h,
-                UserGrowth = growth
+                UserGrowth = result,
+                TopCategories = topCategories
             };
 
 
@@ -110,7 +118,6 @@ namespace FinanceTracker.API.Services.Implements
             var category = new Category
             {
                 Name = dto.Name,
-                Icon = dto.Icon,
                 Type = dto.Type,
                 IsDefault = true,
                 UserId = null // Danh mục gốc không thuộc về riêng user nào
@@ -128,10 +135,35 @@ namespace FinanceTracker.API.Services.Implements
                 {
                     Id = c.Id,
                     Name = c.Name,
-                    Icon = c.Icon,
                     Type = c.Type
                 })
                 .ToListAsync();
+        }
+
+        public async Task UpdateDefaultCategoryAsync(int id, GlobalCategoryDto dto)
+        {
+            var category = await _context.Categories
+                .FirstOrDefaultAsync(c => c.Id == id && c.IsDefault == true);
+
+            if (category == null)
+                throw new Exception("Default category not found");
+
+            category.Name = dto.Name;
+            category.Type = dto.Type;
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteDefaultCategoryAsync(int id)
+        {
+            var category = await _context.Categories
+                .FirstOrDefaultAsync(c => c.Id == id && c.IsDefault == true);
+
+            if (category == null)
+                throw new Exception("Default category not found");
+
+            _context.Categories.Remove(category);
+            await _context.SaveChangesAsync();
         }
 
     }

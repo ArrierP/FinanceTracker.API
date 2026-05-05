@@ -6,7 +6,7 @@ namespace FinanceTracker.API.DTOs.Admin
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
-        public string Icon { get; set; } = string.Empty;
+        //public string Icon { get; set; } = string.Empty;
         public CategoryType Type { get; set; } // Income hoặc Expense
     }
 }
