@@ -37,7 +37,7 @@ public class TransactionsController : ControllerBase
     {
         var transaction = await _transactionService.GetByIdAsync(id);
         if (transaction == null)
-            return NotFound("Transaction not found.");
+            return NotFound(new { message = "Transaction not found." });
 
         return Ok(transaction);
     }
@@ -46,30 +46,53 @@ public class TransactionsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateTransactionDto dto)
     {
-        var transaction = await _transactionService.CreateAsync(dto);
-        if (transaction == null)
-            return BadRequest("Invalid data. Please check the Wallet or Category.");
+        try
+        {
+            var transaction = await _transactionService.CreateAsync(dto);
+            if (transaction == null)
+                return BadRequest(new { message = "Invalid data. Please check the Wallet or Category." });
 
-        return CreatedAtAction(nameof(GetById), new { id = transaction.Id }, transaction);
+            return CreatedAtAction(nameof(GetById), new { id = transaction.Id }, transaction);
+        }
+        catch (Exception ex)
+        {
+            // Bắt các Exception ném ra từ Service (ví dụ: "Số dư không đủ")
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
     // 4. Cập nhật giao dịch
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, [FromBody] UpdateTransactionDto dto)
     {
-        var result = await _transactionService.UpdateAsync(id, dto);
-        if (!result) return BadRequest("Update failed. Please check the ownership or input data.");
+        try
+        {
+            var result = await _transactionService.UpdateAsync(id, dto);
+            if (!result) return BadRequest(new { message = "Update failed. Please check the ownership or input data." });
 
-        return NoContent();
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
     // 5. Xóa giao dịch
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var result = await _transactionService.DeleteAsync(id);
-        if (!result) return NotFound("Delete failed. Transaction not found or you do not have permission to delete it.");
+        try
+        {
+            var result = await _transactionService.DeleteAsync(id);
+            if (!result) return NotFound(new { message = "Delete failed. Transaction not found or you do not have permission to delete it." });
 
-        return NoContent();
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            // Bắt các Exception ném ra từ Service (ví dụ: "Số dư không đủ" khi hoàn tác)
+            return BadRequest(new { message = ex.Message });
+        }
     }
 }

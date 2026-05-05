@@ -92,7 +92,6 @@ public class TransactionService : ITransactionService
     {
         int userId = _currentUserService.UserId ?? throw new UnauthorizedAccessException();
 
-        // Bắt đầu một Transaction database để đảm bảo tính toàn vẹn dữ liệu
         using var dbTransaction = await _context.Database.BeginTransactionAsync();
 
         try
@@ -107,7 +106,7 @@ public class TransactionService : ITransactionService
                 Amount = dto.Amount,
                 Description = dto.Description,
                 TransactionDate = dto.TransactionDate,
-                Date = dto.TransactionDate,
+                Date = dto.TransactionDate, // Có thể bỏ nếu Database chỉ dùng TransactionDate
                 Type = dto.Type,
                 WalletId = dto.WalletId,
                 CategoryId = dto.CategoryId,
@@ -115,13 +114,17 @@ public class TransactionService : ITransactionService
                 CreatedAt = DateTime.UtcNow
             };
 
-            // --- XỬ LÝ CẬP NHẬT SỐ DƯ ---
+            // --- XỬ LÝ CẬP NHẬT SỐ DƯ (Đã thêm kiểm tra số âm) ---
             if (dto.Type == TransactionType.Income)
             {
                 wallet.Balance += dto.Amount;
             }
             else if (dto.Type == TransactionType.Expense)
             {
+                // Kiểm tra ví có đủ tiền để chi tiêu không
+                if (wallet.Balance < dto.Amount)
+                    throw new Exception("Số dư không đủ");
+
                 wallet.Balance -= dto.Amount;
             }
             else if (dto.Type == TransactionType.Transfer)
@@ -131,22 +134,22 @@ public class TransactionService : ITransactionService
                 var toWallet = await _context.Wallets.FirstOrDefaultAsync(w => w.Id == dto.ToWalletId && w.UserId == userId);
                 if (toWallet == null) throw new Exception("Ví đích không tồn tại.");
 
+                // Kiểm tra ví gửi (Ví A) có đủ tiền để chuyển không
+                if (wallet.Balance < dto.Amount)
+                    throw new Exception("Số dư không đủ");
+
                 // Trừ tiền ví gửi, cộng tiền ví nhận
                 wallet.Balance -= dto.Amount;
                 toWallet.Balance += dto.Amount;
 
                 transaction.Description = $"[Chuyển tiền đến {toWallet.Name}] " + dto.Description;
-                // Lưu thông tin ví nhận vào database
                 transaction.ToWalletId = dto.ToWalletId;
             }
 
             _context.Transactions.Add(transaction);
             await _context.SaveChangesAsync();
-
-            // Xác nhận hoàn tất giao dịch
             await dbTransaction.CommitAsync();
 
-            // Trả về DTO cho Controller
             return new TransactionDto
             {
                 Id = transaction.Id,
@@ -214,11 +217,49 @@ public class TransactionService : ITransactionService
 
         if (transaction == null) return false;
 
-        // Hoàn tác số dư
+        // Phân loại logic hoàn tác số dư cho từng loại giao dịch
         if (transaction.Type == TransactionType.Income)
-            transaction?.Wallet?.Balance -=   transaction.Amount;
-        else
-            transaction?.Wallet?.Balance += transaction.Amount;
+        {
+            if (transaction.Wallet != null)
+            {
+                // Kiểm tra tránh số dư âm khi xóa khoản thu
+                if (transaction.Wallet.Balance < transaction.Amount)
+                    throw new Exception("Not enough balance in the destination wallet");
+
+                transaction.Wallet.Balance -= transaction.Amount;
+            }
+        }
+        else if (transaction.Type == TransactionType.Expense)
+        {
+            if (transaction.Wallet != null)
+            {
+                transaction.Wallet.Balance += transaction.Amount;
+            }
+        }
+        else if (transaction.Type == TransactionType.Transfer)
+        {
+            // 1. Hoàn lại số tiền đã trừ cho Ví gửi (Ví A)
+            if (transaction.Wallet != null)
+            {
+                transaction.Wallet.Balance += transaction.Amount;
+            }
+
+            // 2. Trừ lại số tiền đã nhận của Ví đích (Ví B)
+            if (transaction.ToWalletId.HasValue)
+            {
+                var toWallet = await _context.Wallets
+                    .FirstOrDefaultAsync(w => w.Id == transaction.ToWalletId.Value && w.UserId == _currentUserService.UserId);
+
+                if (toWallet != null)
+                {
+                    // Kiểm tra tránh số dư âm cho ví B khi hoàn tác chuyển tiền
+                    if (toWallet.Balance < transaction.Amount)
+                        throw new Exception("Not enough balance in the destination wallet");
+
+                    toWallet.Balance -= transaction.Amount;
+                }
+            }
+        }
 
         _context.Transactions.Remove(transaction);
         await _context.SaveChangesAsync();
