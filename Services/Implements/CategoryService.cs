@@ -20,13 +20,22 @@ public class CategoryService : ICategoryService
     public async Task<IEnumerable<Category>> GetAllAsync()
     {
         int userId = _currentUserService.UserId ?? throw new UnauthorizedAccessException();
-        // Chỉ lấy danh mục của user đang đăng nhập
+        // Kiểm tra xem User này đã có danh mục riêng chưa
+        var userCategories = await _context.Categories
+            .Where(c => c.UserId == userId)
+            .ToListAsync();
+
+        // Nếu User đã có danh mục (kể cả do hệ thống copy sang lúc tạo account), 
+        // thì chỉ trả về danh mục của họ thôi.
+        if (userCategories.Any())
+        {
+            return userCategories;
+        }
+
+        // Nếu User hoàn toàn trống trải (vừa tạo acc xong), mới lấy hàng mặc định
         return await _context.Categories
-        .Where(c =>
-            (c.UserId == userId) ||
-            (c.IsDefault && c.UserId == null)
-        )
-        .ToListAsync();
+            .Where(c => c.IsDefault && c.UserId == null)
+            .ToListAsync();
     }
 
     public async Task<Category?> GetByIdAsync(int id)
