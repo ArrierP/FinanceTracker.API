@@ -20,16 +20,12 @@ public class CategoryService : ICategoryService
     public async Task<IEnumerable<Category>> GetAllAsync()
     {
         int userId = _currentUserService.UserId ?? throw new UnauthorizedAccessException();
-        // Chỉ lấy danh mục của user đang đăng nhập
 
+        // CHỈ lấy những gì thuộc về User này (đã bao gồm các mục được Seed khi đăng ký)
         return await _context.Categories
-        .Where(c =>
-            (c.UserId == userId) ||
-            (c.IsDefault && c.UserId == null)
-        )
-        .ToListAsync();
+            .Where(c => c.UserId == userId)
+            .ToListAsync();
     }
-
     public async Task<Category?> GetByIdAsync(int id)
     {
         int userId = _currentUserService.UserId ?? throw new UnauthorizedAccessException();
