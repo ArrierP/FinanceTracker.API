@@ -42,7 +42,7 @@ public class CategoriesController : ControllerBase
         }
         catch (Exception ex)
         {
-            return Conflict(new { message = ex.Message }); // 👈 409
+            return Conflict(new { message = ex.Message }); 
         }
     }
 

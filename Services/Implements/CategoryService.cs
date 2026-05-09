@@ -19,11 +19,24 @@ public class CategoryService : ICategoryService
 
     public async Task<IEnumerable<Category>> GetAllAsync()
     {
-        int userId = _currentUserService.UserId ?? throw new UnauthorizedAccessException();
+        int userId = _currentUserService.UserId
+            ?? throw new UnauthorizedAccessException();
 
-        // CHỈ lấy những gì thuộc về User này (đã bao gồm các mục được Seed khi đăng ký)
+        // Kiểm tra user đã có category riêng chưa
+        bool hasCustomCategory = await _context.Categories
+            .AnyAsync(c => c.UserId == userId);
+
+        // Nếu đã có category riêng -> chỉ lấy category riêng
+        if (hasCustomCategory)
+        {
+            return await _context.Categories
+                .Where(c => c.UserId == userId)
+                .ToListAsync();
+        }
+
+        // Nếu chưa có -> lấy category global
         return await _context.Categories
-            .Where(c => c.UserId == userId)
+            .Where(c => c.IsDefault && c.UserId == null)
             .ToListAsync();
     }
     public async Task<Category?> GetByIdAsync(int id)

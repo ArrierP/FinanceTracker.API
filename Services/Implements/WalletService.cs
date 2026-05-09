@@ -49,6 +49,13 @@ namespace FinanceTracker.API.Services.Implements
             wallet.Name = updateWalletDto.Name;
             wallet.Balance = updateWalletDto.InitialBalance;
 
+          
+            var existingWallet = await _context.Wallets.FirstOrDefaultAsync(w => w.Name == updateWalletDto.Name && w.UserId == _currentUserService.UserId && w.Id != id);
+            if (existingWallet != null)
+            {
+                throw new Exception("A wallet with the same name already exists.");
+            }
+
             _context.Wallets.Update(wallet);
             await _context.SaveChangesAsync();
         }
@@ -59,6 +66,11 @@ namespace FinanceTracker.API.Services.Implements
             if (userId == null)
             {
                 throw new Exception("User not authenticated.");
+            }
+
+            var existingWallet = await _context.Wallets.FirstOrDefaultAsync(w => w.Name == createWalletDto.Name && w.UserId == userId);
+            if (existingWallet != null) {
+                throw new Exception("A wallet with the same name already exists.");
             }
             var wallet = new Wallet
             {
