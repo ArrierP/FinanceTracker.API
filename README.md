@@ -15,31 +15,11 @@ Dự án được triển khai dưới dạng project mang tên `FinanceTracker.
 
 ---
 
-## 📂 Cấu trúc Thành phần Chính
+## 🧑‍💻 Phân công nhiệm vụ
 
-### 1. Cấu hình Hệ thống (Infrastructure)
-* **`appsettings.json`**: Lưu trữ chuỗi kết nối cơ sở dữ liệu và cấu hình bí mật cho JWT.
-* **`Program.cs`**: Đăng ký các dịch vụ (Dependency Injection) và thiết lập Pipeline cho Authentication/Authorization.
-
-### 2. Tầng Domain (Core)
-* **Entities**: Định nghĩa các bảng như `User`, `Wallet`, `Category`, và `Transaction`.
-* **Audit**: Lớp `BaseAuditableEntity` giúp tự động theo dõi thời gian và người tạo/chỉnh sửa dữ liệu.
-* **Enums**: Định nghĩa các hằng số cho vai trò người dùng (`UserRole`), loại giao dịch, và trạng thái.
-
-### 3. Tầng Nghiệp vụ (Business Logic)
-Toàn bộ logic xử lý dữ liệu nằm ở các dịch vụ được đăng ký dưới dạng **Scoped**:
-* **`AuthService`**: Quản lý đăng ký, đăng nhập và tạo JWT token.
-* **`CurrentUserService`**: Lấy thông tin người dùng đang đăng nhập từ `IHttpContextAccessor`.
-* **Quản lý Tài chính**: `IWalletService`, `ICategoryService`, và `ITransactionService` xử lý CRUD và kiểm tra quyền sở hữu dữ liệu.
-* **Thống kê**: `IDashboardService` tính toán tổng thu chi và dữ liệu biểu đồ.
-* **Quản trị**: `IAdminService` dành riêng cho việc quản lý người dùng hệ thống.
-
-### 4. Tầng Giao tiếp (API & DTOs)
-* **DTOs (Data Transfer Objects)**: Các đối tượng chuyển đổi dữ liệu cho Auth, Ví, Danh mục và Giao dịch để tối ưu hóa dữ liệu truyền tải.
-* **Controllers**: Chịu trách nhiệm nhận yêu cầu HTTP và điều hướng logic.
-    * Sử dụng attribute `[Authorize]` để bảo mật các đầu cuối (endpoints).
-    * `AdminController` yêu cầu quyền `Admin` để truy cập.
-
+* Phạm Tuấn Huy - **Backend Developer**:  Thiết kế cơ sở dữ liệu, quản lí ví và tài khoản cá nhân.
+* Nguyễn Thị Kim Thoa - **Backend Developer**:  Quản lí danh mục global, user và báo cáo thống kê.
+* Nguyễn Huỳnh Bảo Châu - **Backend Developer**:  Quản lí giao dịch và danh mục cá nhân.
 ---
 
 ## 🚀 Hướng dẫn Cài đặt
